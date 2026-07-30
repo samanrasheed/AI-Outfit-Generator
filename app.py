@@ -9,28 +9,31 @@ def home():
 @app.route("/api/ai/generate-outfit", methods=["POST"])
 def generate_outfit(): 
     data = request.get_json()  # Get user input from the request body
-      items = data["items"]
-      occasion = data["occasion"]
-      season = data["season"] # Extract season from the input
+    items = data["items"]
+    occasion = data["occasion"]
+    season = data["season"] # Extract season from the input
     
     if not items:
-    return jsonify({
-        "error": "Please provide at least one wardrobe item."
-    }), 400
+        return jsonify({
+            "error": "Please provide at least one wardrobe item."
+        }), 400
+
     if not occasion:
-    return jsonify({
-        "error": "Occasion is required."
-    }), 400
+        return jsonify({
+            "error": "Occasion is required."
+        }), 400
+
     if not season:
-    return jsonify({
-        "error": "Season is required."
-    }), 400
+        return jsonify({
+            "error": "Season is required."
+        }), 400
     prompt = create_outfit_prompt(items, occasion, season)
-    # Logic to generate outfit based on user input                                
-       return jsonify({
-    "message": "Prompt created successfully!",
-    "prompt": prompt
-})
+        # Return prompt (temporary, until AI API is connected)
+    return jsonify({
+        "message": "Prompt created successfully!",
+        "prompt": prompt
+    })
+
 
 if __name__ == "__main__":  #start the  flask server
     app.run(debug=True)
