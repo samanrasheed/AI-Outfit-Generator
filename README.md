@@ -1,28 +1,138 @@
 # AI Outfit Generator
 
 ## Project Overview
-This project is an AI-powered Outfit Generator built using Flask. It receives wardrobe items, occasion, and season from the frontend, generates an AI prompt, and prepares it for AI model integration.
 
-## Technologies
-- Python 3.9.6
+AI Outfit Generator is a Flask-based REST API that generates outfit recommendations based on a user's wardrobe, occasion, and season.
+
+The project validates user input, creates an AI prompt, sends it to an AI service, and returns a structured JSON response.
+
+---
+
+## Features
+
+- Generate outfit recommendations
+- Input validation
+- Prompt generation
+- AI service integration (currently mock implementation)
+- Standardized API responses
+- Logging for API requests and errors
+
+---
+
+## Tech Stack
+
+- Python 3
 - Flask
-- Postman
+- REST API
+- JSON
 - Git & GitHub
 
-## Progress
+---
 
-### Day 1
-- Project setup
-- Flask installation
-- Git and GitHub setup
+## Project Structure
 
-### Day 2
-- Created POST API endpoint
-- JSON request handling
-- Postman testing
-- Designed AI outfit generation prompt
-- Defined JSON output structure
-- Created reusable prompt service
-- Connected Flask API with prompt service
-- Added input validation
-- Implemented error handling
+```
+AI-Outfit-Generator/
+
+├── app.py
+├── services/
+│   ├── ai_service.py
+│   └── prompt_service.py
+│
+├── validators/
+│   └── request_validator.py
+│
+├── utils/
+│   ├── logger.py
+│   └── response.py
+│
+├── prompts/
+├── routes/
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+## API Endpoint
+
+### Generate Outfit
+
+**POST**
+
+```
+/api/ai/generate-outfit
+```
+
+### Request Body
+
+```json
+{
+    "items": [
+        "Black Blazer",
+        "White Shirt",
+        "Blue Jeans"
+    ],
+    "occasion": "Business Casual",
+    "season": "Summer"
+}
+```
+
+---
+
+## Sample Response
+
+```json
+{
+    "success": true,
+    "data": {
+        "message": "AI service will be connected here."
+    }
+}
+```
+
+---
+
+## Installation
+
+Clone the repository
+
+```bash
+git clone <repository-url>
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the application
+
+```bash
+python3 app.py
+```
+
+The API will run on:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## Future Improvements
+
+- Connect OpenAI/Grok API
+- AI Color Matcher endpoint
+- Outfit history
+- Authentication
+- Unit testing
+- Docker support
+
+---
+
+## Author
+
+**Saman Rasheed**
