@@ -103,9 +103,12 @@ git clone <repository-url>
 ```
 
 Install dependencies
+## Run the Project
+
+Install Flask
 
 ```bash
-pip install -r requirements.txt
+pip install flask
 ```
 
 Run the application
