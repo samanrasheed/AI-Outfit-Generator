@@ -1,22 +1,16 @@
-def generate_ai_outfit(prompt):
+def generate_ai_response(prompt):
 
     return {
-        "outfit": [
-            {
-                "items": [
-                    "Black Blazer",
-                    "White Shirt",
-                    "Blue Jeans"
-                ],
-                "match": 95,
-                "reason": "Professional business casual outfit suitable for summer."
-            }
+        "outfit": {
+            "top": "White Shirt",
+            "bottom": "Blue Jeans",
+            "outerwear": "Black Blazer"
+        },
+        "matchScore": 95,
+        "colorPalette": [
+            "White",
+            "Blue",
+            "Black"
         ],
-        "accessories": [
-            "Black Belt",
-            "Silver Watch"
-        ],
-        "palettes": [
-            "Black + White + Blue"
-        ]
+        "reason": "Suitable for Business Casual during Summer."
     }

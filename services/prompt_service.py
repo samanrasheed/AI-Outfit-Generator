@@ -26,3 +26,23 @@ Rules:
 """
 
     return prompt
+
+def create_color_match_prompt(color):
+
+    prompt = f"""
+You are an expert AI fashion stylist.
+
+Task:
+Suggest matching colors for the given color.
+
+Color:
+{color}
+
+Rules:
+1. Suggest 5 matching colors.
+2. Explain why each color matches.
+3. Mention whether the combination is suitable for casual, business, or party wear.
+4. Return ONLY valid JSON.
+"""
+
+    return prompt
