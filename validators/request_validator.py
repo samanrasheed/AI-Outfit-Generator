@@ -1,39 +1,42 @@
    
-valid_seasons = [
+VALID_SEASONS= [
         "Summer",
         "Winter",
         "Spring",
         "Autumn",
     ]
-valid_occasions = [
+VALID_OCCASIONS = [
         "Business Casual",
         "Party",
         "Casual",
         "Formal",
     ]
-def validate_outfit_request(items, occasion, season):
+def validate_outfit_request(data):
+    items = data.get("items", [])
+    occasion = data.get("occasion", "").strip().title()
+    season = data.get("season", "").strip().title()
     if not items:
-        return jsonify({
+        return{
             "error": "Please provide at least one wardrobe item."
-        }), 400
+        }, 400
 
-    # First validation check for the occasion and season.
+    # check required fields
     if not occasion:
-        return jsonify({"error": "Occasion is required."}), 400
+        return {"error": "Occasion is required."}, 400
 
     if not season:
-        return jsonify({"error": "Season is required."}), 400
+        return {"error": "Season is required."}, 400
 
-    # Second validation is to ensure the entered values are allowed.
-    if occasion not in valid_occasions:
-        return jsonify({
+    #validate allowed values
+    if occasion not in VALID_OCCASIONS:
+        return{
             "error": "Invalid occasion."
-        }), 400
+        }, 400
 
-    if season not in valid_seasons:
-        return jsonify({
+    if season not in VALID_SEASONS:
+        return{
             "error": "Invalid season. Choose Summer, Winter, Spring or Autumn."
-        }), 400
+        }, 400
 
     return None
 

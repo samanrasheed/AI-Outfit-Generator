@@ -10,12 +10,17 @@ from validators.request_validator import (
 )
 from utils.response import success_response, error_response
 from utils.logger import logger
+from flask_cors import CORS
 
 app = Flask(__name__)  # create flask application
+CORS(app)  # Enable CORS for the Flask app
 
 @app.route("/")
 def home():
-    return "Welcome to AI Outfit Generator API"
+    return jsonify({
+        "message": "Welcome to AI Outfit Generator API",
+        "status": "running"
+    })
 @app.route("/api/ai/generate-outfit", methods=["POST"])
 
 
@@ -26,7 +31,7 @@ def generate_outfit():
     
     logger.info("Request data received")
     
-    validation_error = validate_request(data)
+    validation_error = validate_outfit_request(data)
     if validation_error:
         logger.error(f"Validation failed: {validation_error['error']}")
         return jsonify(error_response(validation_error["error"])), 400
@@ -34,15 +39,21 @@ def generate_outfit():
     logger.info("Validation successful")
     
     items = data.get("items", [])
-    occasion = data.get("occasion", "").strip().title()# Extract occasion from the input and format it
+    # Extract occasion and format it
+    occasion = data.get("occasion", "").strip().title()
     season = data.get("season", "").strip().title()
 
+    # Prompt is created for future Grok/OpenAI integration.
     prompt = create_outfit_prompt(items, occasion, season)
     logger.info("Prompt created successfully")
     
-    # Return prompt (temporary, until AI API is connected)
+    
     try:
-        result = generate_ai_response(prompt)
+        result = generate_ai_response(
+            items=items,
+            occasion=occasion,
+            season=season
+        )
         logger.info("AI response generated successfully")
         return jsonify(success_response(result))
     except Exception as e:
@@ -61,21 +72,24 @@ def color_match():
 
     data = request.get_json()
 
-    error = validate_color_request(data)
+    validate_error = validate_color_request(data)
 
-    if error:
-        logger.error(f"Validation failed: {error['error']}")
-        return jsonify(error_response(error["error"])), 400
+    if validate_error:
+        logger.error(f"Validation failed: {validate_error['error']}")
+        return jsonify(error_response(validate_error["error"])), 400
 
     color = data["color"].strip().title()
 
+    # Prompt is created for future Grok/OpenAI integration.
     prompt = create_color_match_prompt(color)
 
-    logger.info("Color prompt created successfully")
+    logger.info("Color extracted successfully")
 
     try:
 
-        result = generate_ai_response(prompt)
+        result = generate_ai_response(
+            color=color
+        )
 
         logger.info("Color recommendations generated successfully")
 
@@ -83,7 +97,7 @@ def color_match():
 
     except Exception as e:
 
-        logger.error(f"AI Service Error: {e}")
+        logger.exception("AI Service Error")
 
         return jsonify(
             error_response(
