@@ -260,7 +260,7 @@ During deployment testing, a validation-handling issue causing HTTP 500 response
 
 ## AI Integration Status
 
-The current `ai_service.py` uses a temporary/mock response for testing the API structure and deployment.
+The current ai_service.py uses a temporary/mock response for testing the API structure and deployment.
 
 A real AI provider such as Grok or OpenAI can be integrated later when the required API credentials are provided by the team.
 
