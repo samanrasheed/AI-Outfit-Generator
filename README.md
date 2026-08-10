@@ -1,141 +1,251 @@
-# AI Outfit Generator
+AI Outfit Generator
 
-## Project Overview
+A Flask-based REST API for generating outfit combinations from wardrobeitems and providing color-matching recommendations.
 
-AI Outfit Generator is a Flask-based REST API that generates outfit recommendations based on a user's wardrobe, occasion, and season.
+Project Overview
 
-The project validates user input, creates an AI prompt, sends it to an AI service, and returns a structured JSON response.
+The AI Outfit Generator provides backend APIs for:
 
----
+Generating outfit combinations from wardrobe items
 
-## Features
+Matching outfits with an occasion and season
 
-- Generate outfit recommendations
-- Input validation
-- Prompt generation
-- AI service integration (currently mock implementation)
-- Standardized API responses
-- Logging for API requests and errors
+Providing a color palette and outfit match score
 
----
+Providing color-matching recommendations
 
-## Tech Stack
+The API is built with Python, Flask, Flask-CORS, and Gunicorn and isdeployed on Render.
 
-- Python 3
-- Flask
-- REST API
-- JSON
-- Git & GitHub
+Features
 
----
+1. Generate Outfit
 
-## Project Structure
+Generates an outfit recommendation using:
 
-```
+Wardrobe items
+
+Occasion
+
+Season
+
+Endpoint
+
+POST /api/ai/generate-outfit
+
+Live endpoint
+
+https://ai-outfit-generator-ruy8.onrender.com/api/ai/generate-outfit
+
+Request body
+
+{
+  "items": [
+    "Black Blazer",
+    "White Shirt",
+    "Blue Jeans"
+  ],
+  "occasion": "Casual",
+  "season": "Summer"
+}
+
+Example response
+
+{
+  "data": {
+    "colorPalette": [
+      "White",
+      "Black",
+      "Blue"
+    ],
+    "matchScore": 81,
+    "occasion": "Casual",
+    "outfit": {
+      "items": [
+        "Black Blazer",
+        "White Shirt",
+        "Blue Jeans"
+      ]
+    },
+    "reason": "This outfit is suitable for Casual during Summer.",
+    "season": "Summer"
+  },
+  "success": true
+}
+
+2. Color Match
+
+Provides color-matching recommendations for a given color.
+
+Endpoint
+
+POST /api/ai/color-match
+
+Request body
+
+{
+  "color": "navy"
+}
+
+Validation
+
+The outfit API validates:
+
+Supported occasions
+
+Business Casual
+
+Party
+
+Casual
+
+Formal
+
+Supported seasons
+
+Summer
+
+Winter
+
+Spring
+
+Autumn
+
+At least one wardrobe item, an occasion, and a season are required foroutfit generation.
+
+The color-match API requires a color value.
+
+API Response
+
+Successful responses use a common response structure containing:
+
+{
+  "success": true,
+  "data": {}
+}
+
+Validation and server errors are returned with an appropriate errormessage.
+
+Project Structure
+
 AI-Outfit-Generator/
-
+│
 ├── app.py
+├── requirements.txt
+├── README.md
+│
 ├── services/
-│   ├── ai_service.py
-│   └── prompt_service.py
+│   ├── prompt_service.py
+│   └── ai_service.py
 │
 ├── validators/
 │   └── request_validator.py
 │
-├── utils/
-│   ├── logger.py
-│   └── response.py
-│
-├── prompts/
-├── routes/
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+└── utils/
+    ├── response.py
+    └── logger.py
 
----
+Technologies Used
 
-## API Endpoint
+Python 3
 
-### Generate Outfit
+Flask
 
-**POST**
+Flask-CORS
 
-```
-/api/ai/generate-outfit
-```
+Gunicorn
 
-### Request Body
+REST API
 
-```json
-{
-    "items": [
-        "Black Blazer",
-        "White Shirt",
-        "Blue Jeans"
-    ],
-    "occasion": "Business Casual",
-    "season": "Summer"
-}
-```
+Render
 
----
+Postman for API testing
 
-## Sample Response
+Local Setup
 
-```json
-{
-    "success": true,
-    "data": {
-        "message": "AI service will be connected here."
-    }
-}
-```
+Clone the repository:
 
----
+git clone <https://github.com/samanrasheed/AI-Outfit-Generator>
+cd AI-Outfit-Generator
 
-## Installation
+Create and activate a virtual environment:
 
-Clone the repository
+python3 -m venv .venv
+source .venv/bin/activate
 
-```bash
-git clone <repository-url>
-```
+Install dependencies:
 
-Install dependencies
-## Run the Project
+pip install -r requirements.txt
 
-Install Flask
+Run the Flask application:
 
-```bash
-pip install flask
-```
-
-Run the application
-
-```bash
 python3 app.py
-```
 
-The API will run on:
+The API will be available locally at:
 
-```
 http://127.0.0.1:5000
-```
 
----
+Testing with Postman
 
-## Future Improvements
+For the outfit-generation API:
 
-- Connect OpenAI/Grok API
-- AI Color Matcher endpoint
-- Outfit history
-- Authentication
-- Unit testing
-- Docker support
+Create a new POST request.
 
----
+Use:
 
-## Author
+https://ai-outfit-generator-ruy8.onrender.com/api/ai/generate-outfit
 
-**Saman Rasheed**
+Select Body → raw → JSON.
+
+Send:
+
+{
+  "items": [
+    "Black Blazer",
+    "White Shirt",
+    "Blue Jeans"
+  ],
+  "occasion": "Casual",
+  "season": "Summer"
+}
+
+A successful request should return success: true together with thegenerated outfit data.
+
+Deployment
+
+The application is deployed on Render using the main Git branch.
+
+Build command:
+
+pip install -r requirements.txt
+
+Start command:
+
+gunicorn app:app
+
+Render automatically redeploys the service when changes are pushed tothe connected GitHub repository.
+
+Current Deployment Status
+
+The live POST /api/ai/generate-outfit endpoint has been successfullytested with Postman and returned a successful response containing:
+
+Outfit items
+
+Color palette
+
+Match score
+
+Occasion
+
+Season
+
+Recommendation reason
+
+Error Handling
+
+The API includes validation and exception handling for invalid requestsand service errors.
+
+During deployment testing, a validation-handling issue causing HTTP 500responses was identified and fixed by making the request validatorreturn the expected error dictionary format.
+
+Project Goal
+
+The goal of this backend is to provide outfit-generation andcolor-matching APIs that can be connected to the project's frontend AIOutfit Generator interface.
