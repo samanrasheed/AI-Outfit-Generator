@@ -1,43 +1,43 @@
-AI Outfit Generator
+# AI Outfit Generator
 
-A Flask-based REST API for generating outfit combinations from wardrobeitems and providing color-matching recommendations.
+A Flask-based REST API for generating outfit combinations from wardrobe items and providing color-matching recommendations.
 
-Project Overview
+## Project Overview
 
-The AI Outfit Generator provides backend APIs for:
+The **AI Outfit Generator** provides backend APIs for:
 
-Generating outfit combinations from wardrobe items
+- Generating outfit combinations from wardrobe items
+- Matching outfits with an occasion and season
+- Providing a color palette and outfit match score
+- Providing color-matching recommendations
 
-Matching outfits with an occasion and season
+The API is built with **Python, Flask, Flask-CORS, and Gunicorn** and is deployed on **Render**.
 
-Providing a color palette and outfit match score
+## Features
 
-Providing color-matching recommendations
-
-The API is built with Python, Flask, Flask-CORS, and Gunicorn and isdeployed on Render.
-
-Features
-
-1. Generate Outfit
+### 1. Generate Outfit
 
 Generates an outfit recommendation using:
 
-Wardrobe items
+- Wardrobe items
+- Occasion
+- Season
 
-Occasion
+**Endpoint**
 
-Season
-
-Endpoint
-
+```text
 POST /api/ai/generate-outfit
+```
 
-Live endpoint
+**Live Endpoint**
 
+```text
 https://ai-outfit-generator-ruy8.onrender.com/api/ai/generate-outfit
+```
 
-Request body
+**Request Body**
 
+```json
 {
   "items": [
     "Black Blazer",
@@ -47,9 +47,11 @@ Request body
   "occasion": "Casual",
   "season": "Summer"
 }
+```
 
-Example response
+**Example Response**
 
+```json
 {
   "data": {
     "colorPalette": [
@@ -71,62 +73,64 @@ Example response
   },
   "success": true
 }
+```
 
-2. Color Match
+### 2. Color Match
 
 Provides color-matching recommendations for a given color.
 
-Endpoint
+**Endpoint**
 
+```text
 POST /api/ai/color-match
+```
 
-Request body
+**Request Body**
 
+```json
 {
   "color": "navy"
 }
+```
 
-Validation
+## Validation
 
-The outfit API validates:
+The outfit API validates the following:
 
-Supported occasions
+### Supported Occasions
 
-Business Casual
+- Business Casual
+- Party
+- Casual
+- Formal
 
-Party
+### Supported Seasons
 
-Casual
+- Summer
+- Winter
+- Spring
+- Autumn
 
-Formal
-
-Supported seasons
-
-Summer
-
-Winter
-
-Spring
-
-Autumn
-
-At least one wardrobe item, an occasion, and a season are required foroutfit generation.
+At least one wardrobe item, an occasion, and a season are required for outfit generation.
 
 The color-match API requires a color value.
 
-API Response
+## API Response
 
-Successful responses use a common response structure containing:
+Successful responses use the following common response structure:
 
+```json
 {
   "success": true,
   "data": {}
 }
+```
 
-Validation and server errors are returned with an appropriate errormessage.
+Validation and server errors are returned with an appropriate error message.
 
-Project Structure
+## Project Structure
 
+```text
 AI-Outfit-Generator/
 │
 ├── app.py
@@ -143,61 +147,67 @@ AI-Outfit-Generator/
 └── utils/
     ├── response.py
     └── logger.py
+```
 
-Technologies Used
+## Technologies Used
 
-Python 3
+- Python 3
+- Flask
+- Flask-CORS
+- Gunicorn
+- REST API
+- Render
+- Postman
 
-Flask
-
-Flask-CORS
-
-Gunicorn
-
-REST API
-
-Render
-
-Postman for API testing
-
-Local Setup
+## Local Setup
 
 Clone the repository:
 
+```bash
 git clone <https://github.com/samanrasheed/AI-Outfit-Generator>
 cd AI-Outfit-Generator
+```
 
 Create and activate a virtual environment:
 
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
 
 Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 Run the Flask application:
 
+```bash
 python3 app.py
+```
 
 The API will be available locally at:
 
+```text
 http://127.0.0.1:5000
+```
 
-Testing with Postman
+## Testing with Postman
 
 For the outfit-generation API:
 
-Create a new POST request.
+1. Create a new **POST** request.
+2. Use the following URL:
 
-Use:
-
+```text
 https://ai-outfit-generator-ruy8.onrender.com/api/ai/generate-outfit
+```
 
-Select Body → raw → JSON.
+3. Select **Body → raw → JSON**.
+4. Send the following request:
 
-Send:
-
+```json
 {
   "items": [
     "Black Blazer",
@@ -207,45 +217,53 @@ Send:
   "occasion": "Casual",
   "season": "Summer"
 }
+```
 
-A successful request should return success: true together with thegenerated outfit data.
+5. A successful request should return `success: true` together with the generated outfit data.
 
-Deployment
+## Deployment
 
-The application is deployed on Render using the main Git branch.
+The application is deployed on **Render** using the `main` Git branch.
 
-Build command:
+**Build Command:**
 
+```bash
 pip install -r requirements.txt
+```
 
-Start command:
+**Start Command:**
 
+```bash
 gunicorn app:app
+```
 
-Render automatically redeploys the service when changes are pushed tothe connected GitHub repository.
+Render automatically redeploys the service when changes are pushed to the connected GitHub repository.
 
-Current Deployment Status
+## Current Deployment Status
 
-The live POST /api/ai/generate-outfit endpoint has been successfullytested with Postman and returned a successful response containing:
+The live `POST /api/ai/generate-outfit` endpoint has been successfully deployed and tested using Postman.
 
-Outfit items
+The endpoint successfully returns:
 
-Color palette
+- Outfit items
+- Color palette
+- Match score
+- Occasion
+- Season
+- Recommendation reason
 
-Match score
+## Error Handling
 
-Occasion
+The API includes request validation and exception handling for invalid requests and service errors.
 
-Season
+During deployment testing, a validation-handling issue causing HTTP 500 responses was identified and fixed by making the request validator return the expected error dictionary format.
 
-Recommendation reason
+## AI Integration Status
 
-Error Handling
+The current `ai_service.py` uses a temporary/mock response for testing the API structure and deployment.
 
-The API includes validation and exception handling for invalid requestsand service errors.
+A real AI provider such as Grok or OpenAI can be integrated later when the required API credentials are provided by the team.
 
-During deployment testing, a validation-handling issue causing HTTP 500responses was identified and fixed by making the request validatorreturn the expected error dictionary format.
+## Project Goal
 
-Project Goal
-
-The goal of this backend is to provide outfit-generation andcolor-matching APIs that can be connected to the project's frontend AIOutfit Generator interface.
+The goal of this backend is to provide outfit-generation and color-matching APIs that can be connected to the project's frontend AI Outfit Generator interface.
